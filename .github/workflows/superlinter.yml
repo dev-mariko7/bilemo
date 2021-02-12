@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 name: Continious Integration
-image: php:7.2.5-cli
+
 on: push
 cache:
   paths:
