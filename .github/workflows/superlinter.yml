@@ -10,19 +10,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - run: apt-get update -ypq
-      - run: apt-get install zip unzip
-      - run: apt-get install wget -yqq
-      - run: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-      - run: php composer-setup.php
-      - run: php -r "unlink('composer-setup.php');"
-      - run: wget https://get.symfony.com/cli/installer -O - | bash
-      - run: mv /root/.symfony/bin/symfony /usr/local/bin/symfony
-      - run: symfony composer install
-      - run: symfony console doctrine:database:create --env=test
-      - run: symfony console doctrine:migrations:migrate --force --env=test
-      - run: symfony console doctrine:fixtures:load --force --env=test
-      - run: symfony run bin/phpunit
-      - run: echo "test complete"
+      - name: Setup PHP Action
+          uses: shivammathur/setup-php@2.9.0
+          with:
+            php-version: '7.2.5'
+      - name: Install dependencies
+          run: composer update --prefer-dist --no-progress --no-suggest
+      - name: doctrine
+          if: ${{ always() }}
+          run: php bin/console doctrine:database:create --env=test
+     # - run: symfony console doctrine:database:create --env=test
+      #- run: symfony console doctrine:migrations:migrate --force --env=test
+      #- run: symfony console doctrine:fixtures:load --force --env=test
+      #- run: symfony run bin/phpunit
+      #- run: echo "test complete"
 
 
