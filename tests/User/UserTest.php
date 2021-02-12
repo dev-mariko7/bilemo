@@ -5,9 +5,9 @@ namespace App\Tests\User;
 
 
 use App\Entity\User;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserTest extends TestCase
+class UserTest extends WebTestCase
 {
     public function testAddUser()
     {
@@ -16,7 +16,9 @@ class UserTest extends TestCase
         $user->setPassword("test");
         $user->setRoles(["ROLE_USER"]);
 
-        $this->assertEquals($user, $user);
+        $this->assertSame("test@test.fr", $user->getEmail());
+        $this->assertSame("test", $user->getPassword());
+        $this->assertSame(["ROLE_USER"], $user->getRoles());
     }
 
 
