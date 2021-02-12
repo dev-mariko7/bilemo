@@ -2,10 +2,6 @@
 name: Continious Integration
 
 on: push
-cache:
-  paths:
-    - vendor/
-
 stages:
   -test
 
