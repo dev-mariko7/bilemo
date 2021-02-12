@@ -16,9 +16,12 @@ jobs:
           php-version: '7.2.5'
       - name: Install dependencies
         run: composer update --prefer-dist --no-progress --no-suggest
-      - name: doctrine
+      - name: PHP Unit tests
         if: ${{ always() }}
-        run: php bin/console doctrine:database:create --env=test
+        run: bin/phpunit
+        #- name: doctrine
+       # if: ${{ always() }}
+        #run: php bin/console doctrine:database:create --env=test
      # - run: symfony console doctrine:database:create --env=test
       #- run: symfony console doctrine:migrations:migrate --force --env=test
       #- run: symfony console doctrine:fixtures:load --force --env=test
