@@ -16,21 +16,22 @@ jobs:
   test:
     stage: test
 
-    before_script:
-      - apt-get update -ypq
-      - apt-get install zip unzip
-      - apt-get install wget -yqq
-      - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-      - php composer-setup.php
-      - php -r "unlink('composer-setup.php');"
-      - wget https://get.symfony.com/cli/installer -O - | bash
-      - mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+    steps:
+        before_script:
+          - apt-get update -ypq
+          - apt-get install zip unzip
+          - apt-get install wget -yqq
+          - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          - php composer-setup.php
+          - php -r "unlink('composer-setup.php');"
+          - wget https://get.symfony.com/cli/installer -O - | bash
+          - mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
-    script:
-      - symfony composer install
-      - symfony console doctrine:database:create --env=test
-      - symfony console doctrine:migrations:migrate --force --env=test
-      - symfony console doctrine:fixtures:load --force --env=test
-      - symfony run bin/phpunit
-      - echo "test complete"
+        script:
+          - symfony composer install
+          - symfony console doctrine:database:create --env=test
+          - symfony console doctrine:migrations:migrate --force --env=test
+          - symfony console doctrine:fixtures:load --force --env=test
+          - symfony run bin/phpunit
+          - echo "test complete"
 
