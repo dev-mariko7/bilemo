@@ -2,8 +2,6 @@
 name: Continious Integration
 
 on: push
-variables:
-  APP_ENV: test
 
 jobs:
   test:
