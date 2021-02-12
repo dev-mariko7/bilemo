@@ -14,24 +14,25 @@ variables:
 
 jobs:
   test:
-    stage: test
+    name: test
+    runs-on: ubuntu-latest
 
     steps:
         before_script:
-          - apt-get update -ypq
-          - apt-get install zip unzip
-          - apt-get install wget -yqq
-          - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-          - php composer-setup.php
-          - php -r "unlink('composer-setup.php');"
-          - wget https://get.symfony.com/cli/installer -O - | bash
-          - mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+          - run: apt-get update -ypq
+          - run: apt-get install zip unzip
+          - run: apt-get install wget -yqq
+          - run: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          - run: php composer-setup.php
+          - run: php -r "unlink('composer-setup.php');"
+          - run: wget https://get.symfony.com/cli/installer -O - | bash
+          - run: mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
         script:
-          - symfony composer install
-          - symfony console doctrine:database:create --env=test
-          - symfony console doctrine:migrations:migrate --force --env=test
-          - symfony console doctrine:fixtures:load --force --env=test
-          - symfony run bin/phpunit
-          - echo "test complete"
+          - run: symfony composer install
+          - run: symfony console doctrine:database:create --env=test
+          - run: symfony console doctrine:migrations:migrate --force --env=test
+          - run: symfony console doctrine:fixtures:load --force --env=test
+          - run: symfony run bin/phpunit
+          - run: echo "test complete"
 
