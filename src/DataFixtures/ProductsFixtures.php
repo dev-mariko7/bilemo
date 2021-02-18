@@ -5,43 +5,37 @@ namespace App\DataFixtures;
 
 
 use App\Entity\Products;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
+use App\DataFixtures\services\HandlerImages;
 
 class ProductsFixtures extends Fixture
 {
 
     Const NUMBER_OF_PRODUCTS = 50;
     private $dirroot;
+    private $kernel;
 
     public function __construct(KernelInterface $kernel)
     {
         $this->dirroot = $kernel->getProjectDir()."/public/images";
+        $this->kernel = $kernel;
     }
 
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create();
-        $finder = new Finder();
         $timezone = new \DateTimeZone('Europe/Paris');
         $time = new \DateTime('now', $timezone);
-
-        $getpictures = $finder->files()->in($this->dirroot);
-
-        foreach ($getpictures as $file)
-        {
-            $pictures[] = $file->getRelativePathname();
-        }
+        $image = new HandlerImages($this->kernel);
 
         for ($i = 1; $i <= self::NUMBER_OF_PRODUCTS; $i++)
         {
             $product = new Products();
             $product->setDescription($faker->text);
-            $product->setCover($pictures[rand(0,count($pictures)-1)]);
+            $product->setCover($image->randamImages());
             $product->setName($faker->name);
             $product->setPrice((string)rand(0,1000));
             $product->setProductType("type" . $i);
