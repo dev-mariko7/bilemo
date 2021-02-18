@@ -11,7 +11,7 @@ use Faker;
 
 class CustomersFixtures extends Fixture
 {
-    Const NUMBER_OF_CUSTOMERS = 15;
+    public Const NUMBER_OF_CUSTOMERS = 15;
 
     public function load(ObjectManager $manager)
     {

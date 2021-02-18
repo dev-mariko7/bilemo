@@ -34,6 +34,37 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $statut;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date_c;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=customers::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fk_custom;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -113,5 +144,77 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?string $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getDateC(): ?\DateTimeInterface
+    {
+        return $this->date_c;
+    }
+
+    public function setDateC(\DateTimeInterface $date_c): self
+    {
+        $this->date_c = $date_c;
+
+        return $this;
+    }
+
+    public function getFkCustom(): ?customers
+    {
+        return $this->fk_custom;
+    }
+
+    public function setFkCustom(?customers $fk_custom): self
+    {
+        $this->fk_custom = $fk_custom;
+
+        return $this;
     }
 }
