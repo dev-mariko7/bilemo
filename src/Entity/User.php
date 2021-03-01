@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiResource(formats={"json"})
  */
 class User implements UserInterface
 {
@@ -206,12 +208,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getFkCustom(): ?customers
+    public function getFkCustom(): ?Customers
     {
         return $this->fk_custom;
     }
 
-    public function setFkCustom(?customers $fk_custom): self
+    public function setFkCustom(?Customers $fk_custom): self
     {
         $this->fk_custom = $fk_custom;
 
