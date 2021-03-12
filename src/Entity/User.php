@@ -11,10 +11,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
  *     formats={"json"},
+ *     attributes={"pagination_items_per_page"=5},
  *     itemOperations={
  *         "get"={"method"="GET","access_control"="is_granted('view', object)"},
- *         "delete"={"method"="DELETE","access_control"="is_granted('view', object)"}
- *     }
+ *         "delete"={"method"="DELETE","access_control"="is_granted('view', object)","maximum_items_per_page"=10}
+ *     },
  * )
  */
 class User

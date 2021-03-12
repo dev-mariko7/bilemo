@@ -12,8 +12,6 @@ class UserVoter extends Voter
 {
     // these strings are just invented: you can use anything
     const VIEW_USER = 'view';
-    const DELETE_USER = 'delete';
-    private EntityManagerInterface $entityManager;
 
     protected function supports(string $attribute, $subject)
     {
