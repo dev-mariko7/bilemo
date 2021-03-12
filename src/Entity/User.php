@@ -9,7 +9,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource(formats={"json"})
+ * @ApiResource(
+ *     formats={"json"},
+ *     itemOperations={
+ *         "get"={"method"="GET","access_control"="is_granted('view', object)"},
+ *         "delete"={"method"="DELETE","access_control"="is_granted('delete', object)"}
+ *     }
+ * )
  */
 class User
 {
@@ -54,18 +60,6 @@ class User
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
     }
 
     public function getLastname(): ?string

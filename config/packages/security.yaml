@@ -19,6 +19,7 @@ security:
             stateless: true
             anonymous: true
             json_login:
+                username_path: username
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
@@ -40,5 +41,7 @@ security:
 
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api,       roles: ROLE_USER }
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        #- { path: ^/api,       roles: ROLE_USER } # access aux urls commun de l'api
+        #- { path: ^/api/(users|comment)/\d+$,       roles: ROLE_USER }
+        #- { path: ^/api/(users)/\d+$,       roles: IS_IMPERSONATOR } # access a un utilisateur specifique
