@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     formats={"json"},
  *     itemOperations={
  *         "get"={"method"="GET","access_control"="is_granted('view', object)"},
- *         "delete"={"method"="DELETE","access_control"="is_granted('delete', object)"}
+ *         "delete"={"method"="DELETE","access_control"="is_granted('view', object)"}
  *     }
  * )
  */

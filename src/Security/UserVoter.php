@@ -13,10 +13,7 @@ class UserVoter extends Voter
     // these strings are just invented: you can use anything
     const VIEW_USER = 'view';
     const DELETE_USER = 'delete';
-
-    public function __construct()
-    {
-    }
+    private EntityManagerInterface $entityManager;
 
     protected function supports(string $attribute, $subject)
     {
@@ -49,8 +46,6 @@ class UserVoter extends Voter
         switch ($attribute) {
             case self::VIEW_USER:
                 return $this->canViewUser($user, $customers);
-            case self::DELETE_USER:
-                return $this->canDeleteUser($user, $customers);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -62,17 +57,4 @@ class UserVoter extends Voter
         return $customers === $user->getFkCustom();
     }
 
-    private function canDeleteUser(User $user, Customers $customers, EntityManagerInterface $entityManager)
-    {
-        if ($customers === $user->getFkCustom()) {
-            $entityManager->remove($user);
-            if ($entityManager->flush()) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
 }
