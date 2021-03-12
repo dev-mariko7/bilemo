@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ProductsRepository::class)
- * @ApiResource()
+ * @ApiResource(formats={"json"})
  */
 class Products
 {

@@ -1,11 +1,8 @@
 <?php
 
-
 namespace App\DataFixtures;
 
-
 use App\DataFixtures\services\HandlerImages;
-use App\Entity\Customers;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -32,14 +29,9 @@ class UserFixtures extends Fixture
         $timezone = new \DateTimeZone('Europe/Paris');
         $time = new \DateTime('now', $timezone);
 
-
-        for ($i = 1; $i <= self::NUMBER_OF_USERS; $i++)
-        {
+        for ($i = 1; $i <= self::NUMBER_OF_USERS; ++$i) {
             $user = new User();
-            $currentCustomers = $this->getReference("Customer".rand(1,CustomersFixtures::NUMBER_OF_CUSTOMERS));
-            $user->setRoles(["ROLE_USER"]);
-            $user->setEmail($faker->email);
-            $user->setPassword($this->encoder->encodePassword($user,"pass_" . $i));
+            $currentCustomers = $this->getReference('Customer'.rand(1, CustomersFixtures::NUMBER_OF_CUSTOMERS));
             $user->setFirstname($faker->firstName);
             $user->setLastname($faker->lastName);
             $user->setFkCustom($currentCustomers);
