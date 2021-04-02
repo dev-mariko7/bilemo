@@ -39,25 +39,29 @@ class UserController extends AbstractController
             return $response = $this->json('', Response::HTTP_NO_CONTENT, [], ['groups' => 'post:read']);
         }
 
-        return $response = $this->json($UsersPagination, Response::HTTP_OK, [], ['groups' => 'post:read']);
+        $response = $this->json($UsersPagination, Response::HTTP_OK, [], ['groups' => 'post:read']);
+        $response->setPublic();
+        $response->setMaxAge(3600);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+
+        return $response;
     }
 
     /**
      * @Route("/users", name="add_user", methods={"POST"})
      */
-    public function addUser(Request $request, HandlerApiAddUser $apiAddUser, SerializerInterface $serializer)
+    public function addUser(Request $request, HandlerApiAddUser $apiAddUser, SerializerInterface $serializer, EntityManagerInterface $entityManager)
     {
         $currentCustom = $this->getUser();
-        $jsonRecu = json_encode($request->getContent(), true);
-        $post = $serializer->deserialize($jsonRecu, User::class, 'json', ['groups' => 'post:read']);
-        dd($post);
-        exit;
-        $requestStatut = $apiAddUser->checkUserToAdd($post, $currentCustom);
+        $jsonRecu = $request->getContent();
+        $postUser = $serializer->deserialize($jsonRecu, User::class, 'json');
+
+        $requestStatut = $apiAddUser->checkUserToAdd($postUser, $currentCustom, $entityManager);
         if ($requestStatut['statut']) {
             return $response = $this->json('Utilisateur ajouté avec succès', Response::HTTP_CREATED,
                 [], []);
         } else {
-            return $response = $this->json($requestStatut['errorMessage'], Response::HTTP_OK,
+            return $response = $this->json($requestStatut['errorMessage'], Response::HTTP_PRECONDITION_FAILED,
                 [], []);
         }
     }
@@ -97,7 +101,12 @@ class UserController extends AbstractController
         }
 
         if ($idCustom === $currentCustom) {
-            return $response = $this->json($users, Response::HTTP_OK, [], ['groups' => 'post:read']);
+            $response = $this->json($users, Response::HTTP_OK, [], ['groups' => 'post:read']);
+            $response->setPublic();
+            $response->setMaxAge(3600);
+            $response->headers->addCacheControlDirective('must-revalidate', true);
+
+            return $response;
         } else {
             return $response = $this->json(null, Response::HTTP_NON_AUTHORITATIVE_INFORMATION,
                 [], []);

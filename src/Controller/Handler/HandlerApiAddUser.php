@@ -6,13 +6,14 @@ use App\Entity\User;
 
 class HandlerApiAddUser
 {
-    public function checkUserToAdd(User $userToCreate, $fk_custom)
+    public function checkUserToAdd(User $userToCreate, $fk_custom, $entityManager)
     {
         $requestStatut = ['errorMessage' => '', 'statut' => true];
-        $lastname = json_decode($userToCreate->getContent())->lastname;
-        $firstname = json_decode($userToCreate->getContent())->firstname;
-        $image = json_decode($userToCreate->getContent())->image;
-        $statut = json_decode($userToCreate->getContent())->statut;
+
+        $lastname = $userToCreate->getLastname();
+        $firstname = $userToCreate->getFirstname();
+        $image = $userToCreate->getImage();
+        $statut = $userToCreate->getStatut();
 
         $check_array = [
             'lasname' => $lastname,
@@ -21,9 +22,11 @@ class HandlerApiAddUser
             'statut' => $statut,
         ];
 
+        $fieldsnotrequired = ['statut', 'statut'];
+
         foreach ($check_array as $key => $value) {
-            if (empty($value) && 'image' !== $key) {
-                $errorMessage = 'Le champs'.$key.'Est vide';
+            if ((empty($value) || '' === $value) && !in_array($key, $fieldsnotrequired)) {
+                $errorMessage = 'Le champs '.$key.' est vide';
                 $requestStatut['errorMessage'] = $errorMessage;
                 $requestStatut['statut'] = false;
 
@@ -35,7 +38,10 @@ class HandlerApiAddUser
         $user->setLastname($lastname);
         $user->setFirstname($firstname);
         $user->setImage($image);
+        $user->setStatut($image);
         $user->setFkCustom($fk_custom);
+        $entityManager->persist($user);
+        $entityManager->flush();
 
         return $requestStatut;
     }

@@ -17,6 +17,7 @@
         "fzaninotto/faker": "^1.9",
         "knplabs/knp-paginator-bundle": "^5.4",
         "lexik/jwt-authentication-bundle": "^2.11",
+        "nelmio/api-doc-bundle": "3.8.2",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "symfony/asset": "5.2.*",
@@ -34,7 +35,8 @@
         "symfony/serializer": "5.2.*",
         "symfony/twig-bundle": "5.2.*",
         "symfony/validator": "5.2.*",
-        "symfony/yaml": "5.2.*"
+        "symfony/yaml": "5.2.*",
+        "zircote/swagger-php": "^2.0.9"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
@@ -82,7 +84,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "5.2.*"
         }
     }
