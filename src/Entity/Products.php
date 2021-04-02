@@ -5,13 +5,11 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductsRepository::class)
- * @ApiResource(
- *     formats={"json"},
- *     attributes={"pagination_items_per_page"=5}
- *     )
+ *
  */
 class Products
 {
@@ -19,58 +17,75 @@ class Products
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups("post:read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("post:read")
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("post:read")
      */
     private $date_c;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("post:read")
      */
     private $date_m;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups("post:read")
      */
     private $product_type;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $cover;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("post:read")
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("post:read")
      */
     private $statut;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $quantity;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups("post:read")
+     */
+    private $api_links;
 
     public function getId(): ?int
     {
@@ -193,6 +208,18 @@ class Products
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getApiLinks(): ?string
+    {
+        return $this->api_links;
+    }
+
+    public function setApiLinks(?string $api_links): self
+    {
+        $this->api_links = $api_links;
 
         return $this;
     }

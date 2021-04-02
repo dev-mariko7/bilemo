@@ -2,16 +2,15 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CustomersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CustomersRepository::class)
- * @ApiResource(formats={"json"})
  */
 class Customers implements UserInterface
 {
@@ -19,12 +18,13 @@ class Customers implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
-
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $name;
 
@@ -57,7 +57,6 @@ class Customers implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
-
 
     public function __construct()
     {
@@ -185,5 +184,4 @@ class Customers implements UserInterface
 
         return $this;
     }
-
 }

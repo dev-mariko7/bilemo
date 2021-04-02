@@ -2,21 +2,15 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource(
- *     formats={"json"},
- *     attributes={"pagination_items_per_page"=5},
- *     itemOperations={
- *         "get"={"method"="GET","access_control"="is_granted('view', object)"},
- *         "delete"={"method"="DELETE","access_control"="is_granted('view', object)","maximum_items_per_page"=10}
- *     },
- * )
+ *
  */
 class User
 {
@@ -24,37 +18,44 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups("post:read")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups("post:read")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("post:read")
      */
     private $image;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
+     * @Groups("post:read")
      */
     private $statut;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("post:read")
      */
     private $date_c;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customers::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("post:read")
      */
     private $fk_custom;
 
@@ -133,5 +134,14 @@ class User
         $this->fk_custom = $fk_custom;
 
         return $this;
+    }
+
+    public function __construct()
+    {
+        $timezone = new \DateTimeZone('Europe/Paris');
+        $time = new \DateTime('now', $timezone);
+        $this->setDateC($time);
+
+
     }
 }
