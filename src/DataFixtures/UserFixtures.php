@@ -26,8 +26,7 @@ class UserFixtures extends Fixture
     {
         $faker = Faker\Factory::create();
         $image = new HandlerImages($this->kernel);
-        $timezone = new \DateTimeZone('Europe/Paris');
-        $time = new \DateTime('now', $timezone);
+
 
         for ($i = 1; $i <= self::NUMBER_OF_USERS; ++$i) {
             $user = new User();
@@ -36,7 +35,7 @@ class UserFixtures extends Fixture
             $user->setLastname($faker->lastName);
             $user->setFkCustom($currentCustomers);
             $user->setImage($image->randamImages());
-            $user->setDateC($time);
+
 
             $manager->persist($user);
             $this->addReference('User'.$i, $user);

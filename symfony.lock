@@ -52,6 +52,9 @@
     "doctrine/dbal": {
         "version": "2.12.1"
     },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.0",
         "recipe": {
@@ -116,6 +119,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "exsyst/swagger": {
+        "version": "v0.4.2"
+    },
     "fig/link-util": {
         "version": "1.1.2"
     },
@@ -136,6 +142,12 @@
     },
     "fzaninotto/faker": {
         "version": "v1.9.2"
+    },
+    "knplabs/knp-components": {
+        "version": "v3.0.2"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.4.2"
     },
     "laminas/laminas-code": {
         "version": "4.0.0"
@@ -166,6 +178,19 @@
     },
     "namshi/jose": {
         "version": "7.2.3"
+    },
+    "nelmio/api-doc-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "./config/packages/nelmio_api_doc.yaml",
+            "./config/routes/nelmio_api_doc.yaml"
+        ]
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
@@ -423,6 +448,19 @@
     "symfony/string": {
         "version": "v5.2.3"
     },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd"
+        },
+        "files": [
+            "./config/packages/translation.yaml",
+            "./translations/.gitignore"
+        ]
+    },
     "symfony/translation-contracts": {
         "version": "v2.3.0"
     },
@@ -490,5 +528,8 @@
     },
     "willdurand/negotiation": {
         "version": "3.0.0"
+    },
+    "zircote/swagger-php": {
+        "version": "3.1.0"
     }
 }
