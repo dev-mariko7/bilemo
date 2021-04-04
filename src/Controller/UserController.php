@@ -7,6 +7,9 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +26,22 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/users", name="get_users", methods={"GET"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the users of your organisation",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"post:read"}))
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="table",
+     *     in="query",
+     *     type="string",
+     *     description="The name of table"
+     * )
+     * @SWG\Tag(name="User")
+     * @Security(name="Bearer")
      */
     public function getUsers(UserRepository $userRepository, Request $request, PaginatorInterface $paginator): JsonResponse
     {
@@ -49,6 +68,24 @@ class UserController extends AbstractController
 
     /**
      * @Route("/users", name="add_user", methods={"POST"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="Add an user in your organisation",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"post:read"}))
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="page",
+     *     in="query",
+     *     type="integer",
+     *     description="The collection page number"
+     * )
+     * @SWG\Tag(name="User")
+     * @Security(name="Bearer")
+     *
+     * @return JsonResponse
      */
     public function addUser(Request $request, HandlerApiAddUser $apiAddUser, SerializerInterface $serializer, EntityManagerInterface $entityManager)
     {
@@ -67,7 +104,26 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}", name="delete_user", methods={"DELETE"})
+     * @Route("/users/{id}", name="delete_user", methods={"DELETE"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="delete an user in your organisation",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"post:read"}))
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="query",
+     *     type="integer",
+     *     description="The id of user"
+     * )
+     *
+     * @SWG\Tag(name="User")
+     * @Security(name="Bearer")
+     *
+     * @param $id
      */
     public function deleteUser($id, UserRepository $userRepository, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -88,7 +144,26 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}", name="get_user", methods={"GET"})
+     * @Route("/users/{id}", name="get_user", methods={"GET"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="get an user in your organisation by id",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"post:read"}))
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="query",
+     *     type="integer",
+     *     description="The id of user"
+     * )
+     *
+     * @SWG\Tag(name="User")
+     * @Security(name="Bearer")
+     *
+     * @param $id
      */
     public function GetOneUser(UserRepository $userRepository, $id): JsonResponse
     {

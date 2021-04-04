@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
@@ -19,6 +20,7 @@ class User
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("post:read")
+     * @SWG\Property(description="The unique identifier of the user.")
      */
     private $id;
 
