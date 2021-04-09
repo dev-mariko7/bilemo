@@ -22,7 +22,6 @@ Run the following commands:
 
 >- `Symfony composer install`
 >- `php bin/console doctrine:database:create`
->- `php bin/console make:migration`
 >- `php bin/console doctrine:migrations:migrate`
 
 ## Development process
@@ -44,3 +43,16 @@ Load unit tests
 ## How to test API
 
 Dowload and install INSOMNIA. After that, following the technical documention API bilemo available on api/doc
+
+## How to create the keys for create token
+// ajouter api/login_check in README
+// username password dans le README 
+// supprimer les versions bdd
+//commande pour creer le token et les dossier qui vont bien https://blog.xebia.fr/2010/06/25/rest-richardson-maturity-model/
+// api/doc doit être public
+// pagination (telephone et users) expliquer comment aller aux pages suivantes
+// NO ROUTE FOUND / attraper l'exception
+// 404 quand ca existe pas et retourner un message a chaque fois
+//changer les 204 en 404
+// commande php csfixer
+// niveau 3 de richardson voir https://openclassrooms.com/fr/courses/4087036-construisez-une-api-rest-avec-symfony/4343816-rendez-votre-api-auto-decouvrable-dernier-niveau-du-modele-de-maturite-de-richardson
