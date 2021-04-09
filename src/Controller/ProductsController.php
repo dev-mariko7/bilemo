@@ -5,15 +5,14 @@ namespace App\Controller;
 use App\Entity\Products;
 use App\Repository\ProductsRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
+use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\Model;
-
 
 /**
  * Class ProductsController.
@@ -33,17 +32,13 @@ class ProductsController extends AbstractController
      *     )
      * )
      * @SWG\Parameter(
-     *     name="table",
+     *     name="page",
      *     in="query",
-     *     type="string",
-     *     description="The name of table"
+     *     type="integer",
+     *     description="The collection page number",
      * )
-     * @SWG\Tag(name="rewards")
+     * @SWG\Tag(name="Products")
      * @Security(name="Bearer")
-     * @param ProductsRepository $productsRepository
-     * @param Request $request
-     * @param PaginatorInterface $paginator
-     * @return JsonResponse
      */
     public function getProducts(ProductsRepository $productsRepository, Request $request,
                                 PaginatorInterface $paginator): JsonResponse
@@ -70,6 +65,24 @@ class ProductsController extends AbstractController
 
     /**
      * @Route("/products/{id}", name="get_one_product", methods={"GET"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns an product by id",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Products::class, groups={"post:read"}))
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="query",
+     *     type="integer",
+     *     description="the id of product"
+     * )
+     * @SWG\Tag(name="Products")
+     * @Security(name="Bearer")
+     *
+     * @param $id
      */
     public function getOneProduct(ProductsRepository $productsRepository, $id, Request $request,
                                 PaginatorInterface $paginator): JsonResponse
