@@ -36,6 +36,7 @@ class ProductsController extends AbstractController
      *     in="query",
      *     type="integer",
      *     description="The collection page number",
+     *     default="1"
      * )
      * @SWG\Tag(name="Products")
      * @Security(name="Bearer")
@@ -52,7 +53,7 @@ class ProductsController extends AbstractController
         );
 
         if (!$products) {
-            return $response = $this->json('', Response::HTTP_NO_CONTENT, [], ['groups' => 'post:read']);
+            return $response = $this->json('Ressource non trouvé', Response::HTTP_NOT_FOUND, [], ['groups' => 'post:read']);
         }
 
         $response = $this->json($ProductsPagination, Response::HTTP_OK, [], ['groups' => 'post:read']);
@@ -83,6 +84,7 @@ class ProductsController extends AbstractController
      * @Security(name="Bearer")
      *
      * @param $id
+     * @return JsonResponse
      */
     public function getOneProduct(ProductsRepository $productsRepository, $id, Request $request,
                                 PaginatorInterface $paginator): JsonResponse
@@ -90,7 +92,7 @@ class ProductsController extends AbstractController
         $product = $productsRepository->find($id);
 
         if (!$product) {
-            return $response = $this->json('', Response::HTTP_NO_CONTENT, [], ['groups' => 'post:read']);
+            return $response = $this->json('Ressource non trouvé', Response::HTTP_NOT_FOUND, [], ['groups' => 'post:read']);
         }
 
         $response = $this->json($product, Response::HTTP_OK, [], ['groups' => 'post:read']);

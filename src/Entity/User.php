@@ -7,9 +7,23 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 
 /**
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "get_users"
+ *      )
+ * )
+ *@Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "get_user",
+ *          parameters = { "id" = "expr(object.getId())" }
+ *      )
+ * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  *
  */

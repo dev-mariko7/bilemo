@@ -36,6 +36,7 @@
         "symfony/twig-bundle": "5.2.*",
         "symfony/validator": "5.2.*",
         "symfony/yaml": "5.2.*",
+        "willdurand/hateoas-bundle": "^2.2",
         "zircote/swagger-php": "^2.0.9"
     },
     "require-dev": {

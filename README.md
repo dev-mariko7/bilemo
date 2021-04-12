@@ -26,9 +26,6 @@ Run the following commands:
 
 ## Development process
 
-Check the PSR 1 and PSR 2
->- runt the following command : `php bin/phpunit`
-
 Add data fixtures
 >- `php bin/console doctrine:fixtures:load`
 
@@ -40,19 +37,21 @@ Load the project
 Load unit tests
 - runt the following command : `php bin/phpunit`
 
+## How to create the private key and public key for generate token
+
+- run command : `php bin/console lexik:jwt:generate-keypair`
+
 ## How to test API
 
 Dowload and install INSOMNIA. After that, following the technical documention API bilemo available on api/doc
+To get the token you have to send the user infos on api/login_check like this
+>
+>{
+>   "username": "username1",
+>   "password": "password1"
+>}
 
-## How to create the keys for create token
-// ajouter api/login_check in README
-// username password dans le README 
-// supprimer les versions bdd
-//commande pour creer le token et les dossier qui vont bien https://blog.xebia.fr/2010/06/25/rest-richardson-maturity-model/
-// api/doc doit être public
-// pagination (telephone et users) expliquer comment aller aux pages suivantes
+when you obtained the token it is necessary to include it in the requests of API who requires token
+
 // NO ROUTE FOUND / attraper l'exception
-// 404 quand ca existe pas et retourner un message a chaque fois
-//changer les 204 en 404
-// commande php csfixer
 // niveau 3 de richardson voir https://openclassrooms.com/fr/courses/4087036-construisez-une-api-rest-avec-symfony/4343816-rendez-votre-api-auto-decouvrable-dernier-niveau-du-modele-de-maturite-de-richardson

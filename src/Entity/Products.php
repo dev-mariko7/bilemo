@@ -2,12 +2,25 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "expr('/api/products' ~ object.getId())"
+ *      )
+ * )
+ *@Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "get_one_product",
+ *          parameters = { "id" = "expr(object.getId())" }
+ *      )
+ * )
  * @ORM\Entity(repositoryClass=ProductsRepository::class)
  *
  */

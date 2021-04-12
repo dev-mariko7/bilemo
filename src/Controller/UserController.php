@@ -35,10 +35,11 @@ class UserController extends AbstractController
      *     )
      * )
      * @SWG\Parameter(
-     *     name="table",
+     *     name="page",
      *     in="query",
-     *     type="string",
-     *     description="The name of table"
+     *     type="integer",
+     *     description="The collection page number",
+     *     default="1"
      * )
      * @SWG\Tag(name="User")
      * @Security(name="Bearer")
@@ -55,7 +56,7 @@ class UserController extends AbstractController
         );
 
         if (!$users) {
-            return $response = $this->json('', Response::HTTP_NO_CONTENT, [], ['groups' => 'post:read']);
+            return $response = $this->json('Ressource non trouvé', Response::HTTP_NOT_FOUND, [], ['groups' => 'post:read']);
         }
 
         $response = $this->json($UsersPagination, Response::HTTP_OK, [], ['groups' => 'post:read']);
@@ -138,7 +139,7 @@ class UserController extends AbstractController
             return $response = $this->json('Utilisateur supprimé avec succès', Response::HTTP_OK, [], []);
         } else {
             return $response = $this->json('Vous ne pouvez pas supprimer cet utilisateur',
-                Response::HTTP_NO_CONTENT,
+                Response::HTTP_NOT_FOUND,
                 [], []);
         }
     }
@@ -164,6 +165,7 @@ class UserController extends AbstractController
      * @Security(name="Bearer")
      *
      * @param $id
+     * @return JsonResponse
      */
     public function GetOneUser(UserRepository $userRepository, $id): JsonResponse
     {
@@ -172,7 +174,7 @@ class UserController extends AbstractController
         $currentCustom = $this->getUser()->getId();
 
         if (!$users) {
-            return $response = $this->json('', Response::HTTP_NO_CONTENT, [], ['groups' => 'post:read']);
+            return $response = $this->json('', Response::HTTP_NOT_FOUND, [], ['groups' => 'post:read']);
         }
 
         if ($idCustom === $currentCustom) {
@@ -183,7 +185,7 @@ class UserController extends AbstractController
 
             return $response;
         } else {
-            return $response = $this->json(null, Response::HTTP_NON_AUTHORITATIVE_INFORMATION,
+            return $response = $this->json('Accès aux informations interdit', Response::HTTP_NON_AUTHORITATIVE_INFORMATION,
                 [], []);
         }
     }
