@@ -7,7 +7,6 @@ Symfony project BileMo (PHP-SYMFONY)
 ### Requirements
 
 - Symfony CLI
-- Insomnia (for testing API)
 
 ### Installation and configuration
 
@@ -15,12 +14,12 @@ Please clone the project
 
 ####create and edit .env.local file
 
-- `create .env.local file to root project`
-- `add the line DATABASE_URL and complete it following the`[Doctrine rules](https://symfony.com/doc/current/doctrine.html)
+- create `.env.local` file to root project
+- add the line `DATABASE_URL` and complete it following the[Doctrine rules](https://symfony.com/doc/current/doctrine.html)
 
 Run the following commands:
 
->- `Symfony composer install`
+>- `symfony composer install`
 >- `php bin/console doctrine:database:create`
 >- `php bin/console doctrine:migrations:migrate`
 
