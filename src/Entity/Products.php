@@ -5,24 +5,9 @@ namespace App\Entity;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
- * @Hateoas\Relation(
- *      "self",
- *      href = @Hateoas\Route(
- *          "expr('/api/products' ~ object.getId())"
- *      )
- * )
- *@Hateoas\Relation(
- *      "self",
- *      href = @Hateoas\Route(
- *          "get_one_product",
- *          parameters = { "id" = "expr(object.getId())" }
- *      )
- * )
  * @ORM\Entity(repositoryClass=ProductsRepository::class)
- *
  */
 class Products
 {
@@ -95,10 +80,19 @@ class Products
     private $quantity;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
      * @Groups("post:read")
      */
-    private $api_links;
+    private $links = [];
+
+    public function setLinks($linkstab)
+    {
+        $this->links = $linkstab;
+    }
+
+    public function getLinks()
+    {
+        return $this->links;
+    }
 
     public function getId(): ?int
     {
@@ -221,18 +215,6 @@ class Products
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    public function getApiLinks(): ?string
-    {
-        return $this->api_links;
-    }
-
-    public function setApiLinks(?string $api_links): self
-    {
-        $this->api_links = $api_links;
 
         return $this;
     }

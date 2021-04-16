@@ -2,30 +2,13 @@
 
 namespace App\Entity;
 
-
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Hateoas\Configuration\Annotation as Hateoas;
-
 
 /**
- * @Hateoas\Relation(
- *      "self",
- *      href = @Hateoas\Route(
- *          "get_users"
- *      )
- * )
- *@Hateoas\Relation(
- *      "self",
- *      href = @Hateoas\Route(
- *          "get_user",
- *          parameters = { "id" = "expr(object.getId())" }
- *      )
- * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
- *
  */
 class User
 {
@@ -74,6 +57,21 @@ class User
      * @Groups("post:read")
      */
     private $fk_custom;
+
+    /**
+     * @Groups("post:read")
+     */
+    private $_links = [];
+
+    public function setLinks($_links)
+    {
+        $this->_links = $_links;
+    }
+
+    public function getLinks()
+    {
+        return $this->_links;
+    }
 
     public function getId(): ?int
     {
@@ -157,7 +155,5 @@ class User
         $timezone = new \DateTimeZone('Europe/Paris');
         $time = new \DateTime('now', $timezone);
         $this->setDateC($time);
-
-
     }
 }

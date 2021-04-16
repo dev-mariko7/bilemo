@@ -44,6 +44,8 @@ class ProductsController extends AbstractController
     public function getProducts(ProductsRepository $productsRepository, Request $request,
                                 PaginatorInterface $paginator): JsonResponse
     {
+        $self = 'test';
+        $this->toSetLinks($self, $getBy = '', $modify = '', $add = '', $delete = '');
         $products = $productsRepository->findAll();
 
         $ProductsPagination = $paginator->paginate(
@@ -84,11 +86,13 @@ class ProductsController extends AbstractController
      * @Security(name="Bearer")
      *
      * @param $id
-     * @return JsonResponse
      */
     public function getOneProduct(ProductsRepository $productsRepository, $id, Request $request,
                                 PaginatorInterface $paginator): JsonResponse
     {
+        $self = '';
+        $this->toSetLinks($self, $getBy = '', $modify = '', $add = '', $delete = '');
+
         $product = $productsRepository->find($id);
 
         if (!$product) {
@@ -101,5 +105,29 @@ class ProductsController extends AbstractController
         $response->headers->addCacheControlDirective('must-revalidate', true);
 
         return $response;
+    }
+
+    public function toSetLinks($self, $getBy = '', $modify = '', $add = '', $delete = '')
+    {
+        $getProducts = new Products(); // for set _links
+        $links = [
+            'self' => [
+                'href' => $self,
+            ],
+        ];
+
+        if (!empty($getBy)) {
+            $links['getBy'] = ['href' => $getBy];
+        }
+        if (!empty($modify)) {
+            $links['modify'] = ['href' => $modify];
+        }
+        if (!empty($add)) {
+            $links['add'] = ['href' => $add];
+        }
+        if (!empty($delete)) {
+            $links['delete'] = ['href' => $delete];
+        }
+        $getProducts->setLinks($links);
     }
 }
