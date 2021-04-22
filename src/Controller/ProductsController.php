@@ -29,7 +29,7 @@ class ProductsController extends AbstractController
      *     description="Returns the products",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=Products::class, groups={"post:read"}))
+     *         @SWG\Items(ref=@Model(type=Products::class))
      *     )
      * )
      * @SWG\Parameter(
@@ -74,7 +74,7 @@ class ProductsController extends AbstractController
      *     description="Returns an product by id",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=Products::class, groups={"post:read"}))
+     *         @SWG\Items(ref=@Model(type=Products::class))
      *     )
      * )
      * @SWG\Parameter(
@@ -87,6 +87,7 @@ class ProductsController extends AbstractController
      * @Security(name="Bearer")
      *
      * @param $id
+     * @return JsonResponse
      */
     public function getOneProduct(ProductsRepository $productsRepository, $id, Request $request,
                                 PaginatorInterface $paginator): JsonResponse

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -22,6 +23,7 @@ class Products
     /**
      * @ORM\Column(type="string", length=50)
      * @Groups("post:read")
+     * @SWG\Property(type="string", maxLength=50)
      */
     private $name;
 

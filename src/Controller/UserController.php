@@ -32,7 +32,7 @@ class UserController extends AbstractController
      *     description="Returns the users of your organisation",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=User::class, groups={"post:read"}))
+     *         @SWG\Items(ref=@Model(type=User::class))
      *     )
      * )
      * @SWG\Parameter(
@@ -77,7 +77,7 @@ class UserController extends AbstractController
      *     description="Add an user in your organisation",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=User::class, groups={"post:read"}))
+     *         @SWG\Items(ref=@Model(type=User::class))
      *     )
      * )
      * @SWG\Parameter(
@@ -114,7 +114,7 @@ class UserController extends AbstractController
      *     description="delete an user in your organisation",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=User::class, groups={"post:read"}))
+     *         @SWG\Items(ref=@Model(type=User::class))
      *     )
      * )
      * @SWG\Parameter(
@@ -154,7 +154,7 @@ class UserController extends AbstractController
      *     description="get an user in your organisation by id",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=User::class, groups={"post:read"}))
+     *         @SWG\Items(ref=@Model(type=User::class))
      *     )
      * )
      * @SWG\Parameter(
