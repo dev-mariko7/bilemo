@@ -51,6 +51,3 @@ To get the token you have to send the user infos on api/login_check like this
 >}
 
 when you obtained the token it is necessary to include it in the requests of API who requires token
-
-// NO ROUTE FOUND / attraper l'exception
-// niveau 3 de richardson voir https://openclassrooms.com/fr/courses/4087036-construisez-une-api-rest-avec-symfony/4343816-rendez-votre-api-auto-decouvrable-dernier-niveau-du-modele-de-maturite-de-richardson

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\Handler\HandlerApiAddUser;
+use App\Controller\Handler\LinksForApi;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,10 +47,10 @@ class UserController extends AbstractController
      */
     public function getUsers(UserRepository $userRepository, Request $request, PaginatorInterface $paginator): JsonResponse
     {
-        $url = ''; //TODO AJOUTER URL
-        $this->toSetLinks($url);
         $currentCustom = $this->getUser()->getId();
         $users = $userRepository->findBy(['fk_custom' => $currentCustom]);
+        $links = new LinksForApi();
+        $links->setUsersLinks($users);
 
         $UsersPagination = $paginator->paginate(
             $users,
@@ -92,8 +93,6 @@ class UserController extends AbstractController
      */
     public function addUser(Request $request, HandlerApiAddUser $apiAddUser, SerializerInterface $serializer, EntityManagerInterface $entityManager)
     {
-        $url = ''; //TODO AJOUTER URL
-        $this->toSetLinks($url);
         $currentCustom = $this->getUser();
         $jsonRecu = $request->getContent();
         $postUser = $serializer->deserialize($jsonRecu, User::class, 'json');
@@ -132,8 +131,6 @@ class UserController extends AbstractController
      */
     public function deleteUser($id, UserRepository $userRepository, EntityManagerInterface $entityManager): JsonResponse
     {
-        $url = ''; //TODO AJOUTER URL
-        $this->toSetLinks($url);
         $user = $userRepository->find($id);
         $idCustom = $user->getFkCustom()->getId();
         $currentCustom = $this->getUser()->getId();
@@ -174,9 +171,10 @@ class UserController extends AbstractController
      */
     public function GetOneUser(UserRepository $userRepository, $id, Request $request): JsonResponse
     {
-        $url = ''; //TODO AJOUTER URL
-        $this->toSetLinks($url);
         $users = $userRepository->find($id);
+        $links = new LinksForApi();
+        $links->setUsersLinks($users);
+
         $idCustom = $users->getFkCustom()->getId();
         $currentCustom = $this->getUser()->getId();
 
@@ -195,29 +193,5 @@ class UserController extends AbstractController
             return $response = $this->json('Accès aux informations interdit', Response::HTTP_NON_AUTHORITATIVE_INFORMATION,
                 [], []);
         }
-    }
-
-    public function toSetLinks($self, $getBy = '', $modify = '', $add = '', $delete = '')
-    {
-        $getUsers = new User(); // for set _links
-        $links = [
-            'self' => [
-                'href' => $self,
-            ],
-        ];
-
-        if (!empty($getBy)) {
-            $links['getBy'] = ['href' => $getBy];
-        }
-        if (!empty($modify)) {
-            $links['modify'] = ['href' => $modify];
-        }
-        if (!empty($add)) {
-            $links['add'] = ['href' => $add];
-        }
-        if (!empty($delete)) {
-            $links['delete'] = ['href' => $delete];
-        }
-        $getUsers->setLinks($links);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\Handler\LinksForApi;
 use App\Entity\Products;
 use App\Repository\ProductsRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -44,9 +45,9 @@ class ProductsController extends AbstractController
     public function getProducts(ProductsRepository $productsRepository, Request $request,
                                 PaginatorInterface $paginator): JsonResponse
     {
-        $self = 'test';
-        $this->toSetLinks($self, $getBy = '', $modify = '', $add = '', $delete = '');
         $products = $productsRepository->findAll();
+        $links = new LinksForApi();
+        $links->setProductsLinks($products);
 
         $ProductsPagination = $paginator->paginate(
             $products,
@@ -60,7 +61,7 @@ class ProductsController extends AbstractController
 
         $response = $this->json($ProductsPagination, Response::HTTP_OK, [], ['groups' => 'post:read']);
         $response->setPublic();
-        $response->setMaxAge(3600);
+        $response->setMaxAge(10);
         $response->headers->addCacheControlDirective('must-revalidate', true);
 
         return $response;
@@ -90,10 +91,9 @@ class ProductsController extends AbstractController
     public function getOneProduct(ProductsRepository $productsRepository, $id, Request $request,
                                 PaginatorInterface $paginator): JsonResponse
     {
-        $self = '';
-        $this->toSetLinks($self, $getBy = '', $modify = '', $add = '', $delete = '');
-
         $product = $productsRepository->find($id);
+        $links = new LinksForApi();
+        $links->setProductsLinks($product);
 
         if (!$product) {
             return $response = $this->json('Ressource non trouvé', Response::HTTP_NOT_FOUND, [], ['groups' => 'post:read']);
@@ -105,29 +105,5 @@ class ProductsController extends AbstractController
         $response->headers->addCacheControlDirective('must-revalidate', true);
 
         return $response;
-    }
-
-    public function toSetLinks($self, $getBy = '', $modify = '', $add = '', $delete = '')
-    {
-        $getProducts = new Products(); // for set _links
-        $links = [
-            'self' => [
-                'href' => $self,
-            ],
-        ];
-
-        if (!empty($getBy)) {
-            $links['getBy'] = ['href' => $getBy];
-        }
-        if (!empty($modify)) {
-            $links['modify'] = ['href' => $modify];
-        }
-        if (!empty($add)) {
-            $links['add'] = ['href' => $add];
-        }
-        if (!empty($delete)) {
-            $links['delete'] = ['href' => $delete];
-        }
-        $getProducts->setLinks($links);
     }
 }

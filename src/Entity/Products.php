@@ -82,7 +82,7 @@ class Products
     /**
      * @Groups("post:read")
      */
-    private $links = [];
+    private $links;
 
     public function setLinks($linkstab)
     {
