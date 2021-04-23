@@ -53,5 +53,4 @@ To get the token you have to send the user infos on `api/login_check` like this
 when you obtained the token it is necessary to include it in the requests of API who requires token
 
 
-// attraper method not allowed http exception(405) en mode post api/doc
 // ajouter le contexte pour enlever les antislashes + evenement attraper

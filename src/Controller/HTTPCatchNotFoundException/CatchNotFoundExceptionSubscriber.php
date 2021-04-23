@@ -1,32 +1,33 @@
 <?php
 
-namespace App\Controller\HTTPMethodNotAllowed;
+namespace App\Controller\HTTPCatchNotFoundException;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class HTTPcatchMethodNotAllowed implements EventSubscriberInterface
+class CatchNotFoundExceptionSubscriber implements EventSubscriberInterface //l'évenement a écouter
 {
     public static function getSubscribedEvents()
     {
         // Quand l'évenement se passe = méthode(s) à exécuter
         return [
-            KernelEvents::EXCEPTION => 'httpMethodNotAllowedJsonOutput',
+            KernelEvents::EXCEPTION => 'httpNotFoundJsonOutput',
         ];
     }
 
-    public function httpMethodNotAllowedJsonOutput(ExceptionEvent $event)
+    // La méthode exécuter lors du lancement de l'événement
+    public function httpNotFoundJsonOutput(ExceptionEvent $event)
     {
         $exeption = $event->getThrowable();
 
-        if ($exeption instanceof MethodNotAllowedHttpException) {
+        if ($exeption instanceof NotFoundHttpException) {
             $data = [
                 'message' => $exeption->getMessage(),
-                'statut' => Response::HTTP_METHOD_NOT_ALLOWED,
+                'statut' => Response::HTTP_NOT_FOUND,
             ];
 
             $response = new JsonResponse($data);
@@ -34,5 +35,5 @@ class HTTPcatchMethodNotAllowed implements EventSubscriberInterface
             $event->setResponse($response);
         }
     }
-
 }
+
