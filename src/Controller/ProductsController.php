@@ -54,7 +54,7 @@ class ProductsController extends AbstractController
             ];
 
             return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
-                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                ['groups' => 'post:read', 'json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
 
         $links = new LinksForApi();
@@ -67,7 +67,7 @@ class ProductsController extends AbstractController
         );
 
         $response = $this->json($ProductsPagination, Response::HTTP_OK, [], ['groups' => 'post:read',
-            'json_encoder_options' => JSON_UNESCAPED_SLASHES, ]);
+            'json_encode_options' => JSON_UNESCAPED_SLASHES, ]);
         $response->setPublic();
         $response->setMaxAge(10);
         $response->headers->addCacheControlDirective('must-revalidate', true);
@@ -108,14 +108,14 @@ class ProductsController extends AbstractController
             ];
 
             return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
-                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                ['groups' => 'post:read', 'json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
 
         $links = new LinksForApi();
         $links->setProductsLinks($product);
 
         $response = $this->json($product, Response::HTTP_OK, [], ['groups' => 'post:read',
-            'json_encoder_options' => JSON_UNESCAPED_SLASHES, ]);
+            'json_encode_options' => JSON_UNESCAPED_SLASHES, ]);
         $response->setPublic();
         $response->setMaxAge(3600);
         $response->headers->addCacheControlDirective('must-revalidate', true);

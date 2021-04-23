@@ -57,7 +57,7 @@ class UserController extends AbstractController
             ];
 
             return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
-                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                ['groups' => 'post:read', 'json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
 
         $links = new LinksForApi();
@@ -70,7 +70,7 @@ class UserController extends AbstractController
         );
 
         $response = $this->json($UsersPagination, Response::HTTP_OK, [],
-            ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+            ['groups' => 'post:read', 'json_encode_options' => JSON_UNESCAPED_SLASHES]);
         $response->setPublic();
         $response->setMaxAge(3600);
         $response->headers->addCacheControlDirective('must-revalidate', true);
@@ -113,7 +113,7 @@ class UserController extends AbstractController
             ];
 
             return $response = $this->json($data, Response::HTTP_CREATED,
-                [], ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                [], ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         } else {
             $data = [
                 'message' => $requestStatut['errorMessage'],
@@ -121,7 +121,7 @@ class UserController extends AbstractController
             ];
 
             return $response = $this->json($data, Response::HTTP_PRECONDITION_FAILED,
-                [], ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                [], ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
     }
 
@@ -158,7 +158,7 @@ class UserController extends AbstractController
             ];
 
             return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
-                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                ['groups' => 'post:read', 'json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
 
         $idCustom = $user->getFkCustom()->getId();
@@ -173,7 +173,7 @@ class UserController extends AbstractController
             ];
 
             return $response = $this->json($data, Response::HTTP_OK, [],
-                ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         } else {
             $data = [
                 'message' => 'Vous ne pouvez pas supprimer cet utilisateur',
@@ -182,7 +182,7 @@ class UserController extends AbstractController
 
             return $response = $this->json($data,
                 Response::HTTP_NOT_FOUND,
-                [], ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                [], ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
     }
 
@@ -219,7 +219,7 @@ class UserController extends AbstractController
             ];
 
             return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
-                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                ['groups' => 'post:read', 'json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
 
         $links = new LinksForApi();
@@ -229,7 +229,7 @@ class UserController extends AbstractController
 
         if ($idCustom === $currentCustom) {
             $response = $this->json($users, Response::HTTP_OK, [],
-                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                ['groups' => 'post:read', 'json_encode_options' => JSON_UNESCAPED_SLASHES]);
             $response->setPublic();
             $response->setMaxAge(3600);
             $response->headers->addCacheControlDirective('must-revalidate', true);
@@ -242,7 +242,7 @@ class UserController extends AbstractController
             ];
 
             return $response = $this->json($data, Response::HTTP_NON_AUTHORITATIVE_INFORMATION,
-                [], ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+                [], ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
     }
 }
