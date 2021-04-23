@@ -42,12 +42,16 @@ Load unit tests
 
 ## How to test API
 
-Dowload and install INSOMNIA. After that, following the technical documention API bilemo available on api/doc
-To get the token you have to send the user infos on api/login_check like this
+Dowload and install INSOMNIA. After that, following the technical documention API bilemo available on `api/doc`
+To get the token you have to send the user infos on `api/login_check` like this
 >
 >{
->   "username": "username1",
+>   "username": "username1@test.test",
 >   "password": "password1"
 >}
 
 when you obtained the token it is necessary to include it in the requests of API who requires token
+
+
+// attraper method not allowed http exception(405) en mode post api/doc
+// ajouter le contexte pour enlever les antislashes + evenement attraper

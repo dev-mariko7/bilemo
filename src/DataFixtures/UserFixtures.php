@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends Fixture
 {
     private $encoder;
-    const NUMBER_OF_USERS = 10;
+    const NUMBER_OF_USERS = 50;
     private $kernel;
 
     public function __construct(UserPasswordEncoderInterface $encoder, KernelInterface $kernel)

@@ -46,6 +46,17 @@ class ProductsController extends AbstractController
                                 PaginatorInterface $paginator): JsonResponse
     {
         $products = $productsRepository->findAll();
+
+        if (!$products) {
+            $data = [
+                'message' => 'Ressource non trouvé',
+                'statut' => 404,
+            ];
+
+            return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
+                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+        }
+
         $links = new LinksForApi();
         $links->setProductsLinks($products);
 
@@ -55,11 +66,8 @@ class ProductsController extends AbstractController
             10
         );
 
-        if (!$products) {
-            return $response = $this->json('Ressource non trouvé', Response::HTTP_NOT_FOUND, [], ['groups' => 'post:read']);
-        }
-
-        $response = $this->json($ProductsPagination, Response::HTTP_OK, [], ['groups' => 'post:read']);
+        $response = $this->json($ProductsPagination, Response::HTTP_OK, [], ['groups' => 'post:read',
+            'json_encoder_options' => JSON_UNESCAPED_SLASHES, ]);
         $response->setPublic();
         $response->setMaxAge(10);
         $response->headers->addCacheControlDirective('must-revalidate', true);
@@ -87,20 +95,27 @@ class ProductsController extends AbstractController
      * @Security(name="Bearer")
      *
      * @param $id
-     * @return JsonResponse
      */
     public function getOneProduct(ProductsRepository $productsRepository, $id, Request $request,
                                 PaginatorInterface $paginator): JsonResponse
     {
         $product = $productsRepository->find($id);
+
+        if (!$product) {
+            $data = [
+                'message' => 'Ressource non trouvé',
+                'statut' => 404,
+            ];
+
+            return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
+                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+        }
+
         $links = new LinksForApi();
         $links->setProductsLinks($product);
 
-        if (!$product) {
-            return $response = $this->json('Ressource non trouvé', Response::HTTP_NOT_FOUND, [], ['groups' => 'post:read']);
-        }
-
-        $response = $this->json($product, Response::HTTP_OK, [], ['groups' => 'post:read']);
+        $response = $this->json($product, Response::HTTP_OK, [], ['groups' => 'post:read',
+            'json_encoder_options' => JSON_UNESCAPED_SLASHES, ]);
         $response->setPublic();
         $response->setMaxAge(3600);
         $response->headers->addCacheControlDirective('must-revalidate', true);

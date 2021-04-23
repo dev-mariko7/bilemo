@@ -49,6 +49,17 @@ class UserController extends AbstractController
     {
         $currentCustom = $this->getUser()->getId();
         $users = $userRepository->findBy(['fk_custom' => $currentCustom]);
+
+        if (!$users) {
+            $data = [
+                'message' => 'Ressource non trouvé',
+                'statut' => 404,
+            ];
+
+            return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
+                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+        }
+
         $links = new LinksForApi();
         $links->setUsersLinks($users);
 
@@ -58,11 +69,8 @@ class UserController extends AbstractController
             10
         );
 
-        if (!$users) {
-            return $response = $this->json('Ressource non trouvé', Response::HTTP_NOT_FOUND, [], ['groups' => 'post:read']);
-        }
-
-        $response = $this->json($UsersPagination, Response::HTTP_OK, [], ['groups' => 'post:read']);
+        $response = $this->json($UsersPagination, Response::HTTP_OK, [],
+            ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
         $response->setPublic();
         $response->setMaxAge(3600);
         $response->headers->addCacheControlDirective('must-revalidate', true);
@@ -99,11 +107,21 @@ class UserController extends AbstractController
 
         $requestStatut = $apiAddUser->checkUserToAdd($postUser, $currentCustom, $entityManager);
         if ($requestStatut['statut']) {
-            return $response = $this->json('Utilisateur ajouté avec succès', Response::HTTP_CREATED,
-                [], []);
+            $data = [
+                'message' => 'Utilisateur ajouté avec succès',
+                'statut' => 201,
+            ];
+
+            return $response = $this->json($data, Response::HTTP_CREATED,
+                [], ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
         } else {
-            return $response = $this->json($requestStatut['errorMessage'], Response::HTTP_PRECONDITION_FAILED,
-                [], []);
+            $data = [
+                'message' => $requestStatut['errorMessage'],
+                'statut' => 412,
+            ];
+
+            return $response = $this->json($data, Response::HTTP_PRECONDITION_FAILED,
+                [], ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
         }
     }
 
@@ -132,18 +150,39 @@ class UserController extends AbstractController
     public function deleteUser($id, UserRepository $userRepository, EntityManagerInterface $entityManager): JsonResponse
     {
         $user = $userRepository->find($id);
+
+        if (!($user instanceof User)) {
+            $data = [
+                'message' => 'Utilisateur non trouvé',
+                'statut' => 404,
+            ];
+
+            return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
+                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+        }
+
         $idCustom = $user->getFkCustom()->getId();
         $currentCustom = $this->getUser()->getId();
 
         if ($idCustom === $currentCustom) {
             $entityManager->remove($user);
             $entityManager->flush();
+            $data = [
+                'message' => 'Utilisateur supprimé avec succès',
+                'statut' => 200,
+            ];
 
-            return $response = $this->json('Utilisateur supprimé avec succès', Response::HTTP_OK, [], []);
+            return $response = $this->json($data, Response::HTTP_OK, [],
+                ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
         } else {
-            return $response = $this->json('Vous ne pouvez pas supprimer cet utilisateur',
+            $data = [
+                'message' => 'Vous ne pouvez pas supprimer cet utilisateur',
+                'statut' => 404,
+            ];
+
+            return $response = $this->json($data,
                 Response::HTTP_NOT_FOUND,
-                [], []);
+                [], ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
         }
     }
 
@@ -172,26 +211,38 @@ class UserController extends AbstractController
     public function GetOneUser(UserRepository $userRepository, $id, Request $request): JsonResponse
     {
         $users = $userRepository->find($id);
+
+        if (!($users instanceof User)) {
+            $data = [
+                'message' => 'Utilisateur non trouvé',
+                'statut' => 404,
+            ];
+
+            return $response = $this->json($data, Response::HTTP_NOT_FOUND, [],
+                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
+        }
+
         $links = new LinksForApi();
         $links->setUsersLinks($users);
-
         $idCustom = $users->getFkCustom()->getId();
         $currentCustom = $this->getUser()->getId();
 
-        if (!$users) {
-            return $response = $this->json('', Response::HTTP_NOT_FOUND, [], ['groups' => 'post:read']);
-        }
-
         if ($idCustom === $currentCustom) {
-            $response = $this->json($users, Response::HTTP_OK, [], ['groups' => 'post:read']);
+            $response = $this->json($users, Response::HTTP_OK, [],
+                ['groups' => 'post:read', 'json_encoder_options' => JSON_UNESCAPED_SLASHES]);
             $response->setPublic();
             $response->setMaxAge(3600);
             $response->headers->addCacheControlDirective('must-revalidate', true);
 
             return $response;
         } else {
-            return $response = $this->json('Accès aux informations interdit', Response::HTTP_NON_AUTHORITATIVE_INFORMATION,
-                [], []);
+            $data = [
+                'message' => 'Accès aux informations interdit',
+                'statut' => 203,
+            ];
+
+            return $response = $this->json($data, Response::HTTP_NON_AUTHORITATIVE_INFORMATION,
+                [], ['json_encoder_options' => JSON_UNESCAPED_SLASHES]);
         }
     }
 }

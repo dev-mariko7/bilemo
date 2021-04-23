@@ -26,10 +26,14 @@ class CustomersFixtures extends Fixture
             $customer = new Customers();
             $customer->setName($faker->name);
             $customer->setAdress($faker->address);
-            $customer->setEmail($faker->email);
-            $customer->setPassword($this->encoder->encodePassword($customer, 'pass_'.$i));
+            if (1 === $i) {
+                $customer->setEmail('username1@test.test');
+                $customer->setPassword($this->encoder->encodePassword($customer, 'password1'));
+            } else {
+                $customer->setEmail($faker->email);
+                $customer->setPassword($this->encoder->encodePassword($customer, 'pass_'.$i));
+            }
             $customer->setRoles(['ROLE_USER']);
-
             $manager->persist($customer);
             $this->addReference('Customer'.$i, $customer);
         }
